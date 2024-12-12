@@ -1,4 +1,3 @@
-# interfaz.py
 import tkinter as tk
 from tkinter import ttk, messagebox
 from convertidor import ConvertidorDivisas
@@ -46,28 +45,30 @@ class Interfaz:
         self.resultado_label.pack(pady=10)
 
     def convertir(self):
-        # Obtener la entrada de la interfaz
         try:
+            # Obtener entrada desde la interfaz
             cantidad = float(self.cantidad_entry.get())
             origen = self.origen_combobox.get()
             destino = self.destino_combobox.get()
 
-            # Validar que los campos no estén vacíos
-            if not cantidad or not origen or not destino:
-                raise ValueError("Todos los campos son obligatorios.")
+            # Validar campos
+            if not origen or not destino:
+                raise ValueError("Debe seleccionar monedas válidas.")
 
-            # Realizar conversión
+            # Realizar la conversión
             resultado = self.convertidor.convertir(cantidad, origen, destino)
             self.resultado_label.config(text=f"Resultado: {resultado:.2f} {destino}")
 
-            # Generar tokens
+            # Generar tokens para análisis léxico
             entrada = f"{cantidad},{origen},{destino}"
             tokens = analizar_lexico(entrada)
 
             if tokens:
+                # Analizar sintaxis
                 if analizar_sintaxis(tokens):
+                    # Generar y mostrar el árbol sintáctico
                     arbol = generar_arbol(tokens)
-                    mostrar_arbol(arbol)  # Mostrar árbol si la sintaxis es válida
+                    mostrar_arbol(arbol, self.root)
                 else:
                     messagebox.showerror("Error Sintáctico", "La sintaxis de los tokens no es válida.")
             else:
@@ -76,26 +77,4 @@ class Interfaz:
         except ValueError as e:
             messagebox.showerror("Error de Entrada", str(e))
 
-        try:
-            cantidad = float(self.cantidad_entry.get())
-            origen = self.origen_combobox.get()
-            destino = self.destino_combobox.get()
 
-            if not origen or not destino:
-                raise ValueError("Debe seleccionar monedas válidas.")
-
-            resultado = self.convertidor.convertir(cantidad, origen, destino)
-            self.resultado_label.config(text=f"Resultado: {resultado:.2f} {destino}")
-        except ValueError as e:
-            messagebox.showerror("Error", f"Entrada inválida: {e}")
-
-    def mostrar_arbol_gui(self, arbol_path="arbol.png"):
-        # Crear una nueva ventana para mostrar el árbol
-        ventana_arbol = tk.Toplevel(self.root)
-        ventana_arbol.title("Árbol Sintáctico")
-
-        # Cargar y mostrar la imagen del árbol
-        img = tk.PhotoImage(file=arbol_path)
-        label_imagen = ttk.Label(ventana_arbol, image=img)
-        label_imagen.image = img  # Evitar que la imagen sea recolectada por el garbage collector
-        label_imagen.pack(padx=10, pady=10)
