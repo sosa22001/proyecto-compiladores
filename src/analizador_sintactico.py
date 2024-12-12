@@ -1,8 +1,7 @@
 import pydot
 from IPython.display import Image, display
-from graphviz import Digraph
-from PIL import Image, ImageTk
 import tkinter as tk
+from PIL import Image, ImageTk
 
 # Función para analizar la sintaxis (validar estructura esperada de los tokens)
 def analizar_sintaxis(tokens):
@@ -28,14 +27,26 @@ def generar_arbol(tokens):
     :return: Objeto de gráfico Pydot
     """
     graph = pydot.Dot("arbol_sintactico", graph_type="digraph", rankdir="TB")
-    inicio = pydot.Node("Inicio", shape="circle", style="filled", fillcolor="lightblue")
-    graph.add_node(inicio)
-
-    for i, (tipo, valor) in enumerate(tokens):
-        nodo = pydot.Node(f"{tipo}: {valor}", shape="box", style="rounded,filled", fillcolor="lightgrey")
-        graph.add_node(nodo)
-        graph.add_edge(pydot.Edge(inicio, nodo))
     
+    # Nodo raíz
+    Inicio = pydot.Node("Inicio", shape="ellipse", style="filled", fillcolor="lightblue")
+    graph.add_node(Inicio)
+
+    # Nodo para cada tipo de token y su valor
+    for tipo, valor in tokens:
+        nodo_token = pydot.Node(f"{tipo}", shape="box", style="rounded,filled", fillcolor="lightgrey")
+        graph.add_node(nodo_token)
+        
+        # Nodo adicional para mostrar el valor debajo del tipo de token
+        nodo_valor = pydot.Node(f"{valor}", shape="box", style="rounded,filled", fillcolor="lightyellow")
+        graph.add_node(nodo_valor)
+        
+        # Conectar el nodo tipo con el nodo valor
+        graph.add_edge(pydot.Edge(nodo_token, nodo_valor))
+        
+        # Conectar el nodo tipo con el nodo raíz
+        graph.add_edge(pydot.Edge(Inicio, nodo_token))  # Conectar al nodo raíz
+
     return graph
 
 def mostrar_arbol(arbol, ventana):
@@ -53,5 +64,3 @@ def mostrar_arbol(arbol, ventana):
     label_img = tk.Label(ventana_arbol, image=img)
     label_img.image = img  # Referencia para evitar que sea recolectado por el GC
     label_img.pack()
-
-
