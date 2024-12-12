@@ -1,5 +1,8 @@
 import pydot
 from IPython.display import Image, display
+from graphviz import Digraph
+from PIL import Image, ImageTk
+import tkinter as tk
 
 # Función para analizar la sintaxis (validar estructura esperada de los tokens)
 def analizar_sintaxis(tokens):
@@ -35,11 +38,20 @@ def generar_arbol(tokens):
     
     return graph
 
-# Función para mostrar el árbol visualmente
-def mostrar_arbol(arbol):
-    """
-    Muestra el árbol generado como imagen PNG.
-    :param arbol: Objeto de gráfico Pydot
-    """
-    arbol.write_png("arbol.png")
-    display(Image(filename="arbol.png"))
+def mostrar_arbol(arbol, ventana):
+    arbol.write_png("arbol_sintactico.png")  # Guarda el gráfico como PNG
+    
+    # Crear una ventana nueva para mostrar el gráfico
+    ventana_arbol = tk.Toplevel(ventana)
+    ventana_arbol.title("Árbol Sintáctico")
+    
+    # Cargar la imagen
+    img = Image.open("arbol_sintactico.png")
+    img = ImageTk.PhotoImage(img)
+    
+    # Mostrar la imagen en un widget de etiqueta
+    label_img = tk.Label(ventana_arbol, image=img)
+    label_img.image = img  # Referencia para evitar que sea recolectado por el GC
+    label_img.pack()
+
+
