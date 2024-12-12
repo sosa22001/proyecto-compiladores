@@ -1,8 +1,10 @@
+# interfaz.py
 import tkinter as tk
 from tkinter import ttk, messagebox
 from convertidor import ConvertidorDivisas
 from analizador_lexico import analizar_lexico
-from analizador_sintactico import analizar_sintaxis, mostrar_arbol, generar_arbol
+from analizador_sintactico import analizar_sintactico
+from arbol import generar_arbol, mostrar_arbol
 
 class Interfaz:
     def __init__(self, root):
@@ -60,12 +62,13 @@ class Interfaz:
             self.resultado_label.config(text=f"Resultado: {resultado:.2f} {destino}")
 
             # Generar tokens para análisis léxico
-            entrada = f"{cantidad},{origen},{destino}"
+            entrada = f"{cantidad} {origen} {destino}"
+            print(entrada)
             tokens = analizar_lexico(entrada)
 
             if tokens:
                 # Analizar sintaxis
-                if analizar_sintaxis(tokens):
+                if analizar_sintactico(tokens):
                     # Generar y mostrar el árbol sintáctico
                     arbol = generar_arbol(tokens)
                     mostrar_arbol(arbol, self.root)
@@ -76,5 +79,3 @@ class Interfaz:
 
         except ValueError as e:
             messagebox.showerror("Error de Entrada", str(e))
-
-

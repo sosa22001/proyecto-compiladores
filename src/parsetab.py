@@ -27,5 +27,5 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> instruccion","S'",1,None,None,None),
-  ('instruccion -> CANTIDAD ORIGEN DESTINO FIN','instruccion',4,'p_instruccion','analizador_sintactico.py',5),
+  ('instruccion -> CANTIDAD ORIGEN DESTINO FIN','instruccion',4,'p_instruccion','analizador_sintactico.py',6),
 ]
