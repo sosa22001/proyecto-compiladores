@@ -1,5 +1,20 @@
-python -m pip --version
+# Pasos para ejecutar el programa
 
-pip install pydot
+### 1. Instalar los siguientes programas
 
-pip install ipython
+- Instalar el programa graphviz para generar el grafo ([_instalar graphviz_](https://graphviz.org/download/))
+
+### 2. Ejecutar los siguientes comandos
+
+- python --version
+- python -m pip --version
+
+  Verificar que tenemos python y pip instalados, en caso de no estar instalados ([_instalar python_](https://www.python.org/downloads/release/python-3131/))
+
+- pip install pydot
+
+- pip install ipython
+
+- pip install graphviz
+
+- pip install pillow
