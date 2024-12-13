@@ -6,6 +6,7 @@ from analizador_lexico import analizar_lexico
 from analizador_sintactico import analizar_sintactico
 from arbol import generar_arbol, mostrar_arbol
 
+
 class Interfaz:
     def __init__(self, root):
         self.root = root
@@ -63,14 +64,17 @@ class Interfaz:
 
             # Generar tokens para análisis léxico
             entrada = f"{cantidad} {origen} {destino}"
-            print(entrada)
             tokens = analizar_lexico(entrada)
 
             if tokens:
+                
+                entrada_sintactica = " ".join([valor for tipo, valor in tokens]) + " fin"
+                print(entrada_sintactica)
                 # Analizar sintaxis
-                if analizar_sintactico(tokens):
+                resultado =  analizar_sintactico(entrada_sintactica)
+                if resultado:
                     # Generar y mostrar el árbol sintáctico
-                    arbol = generar_arbol(tokens)
+                    arbol = generar_arbol(resultado)
                     mostrar_arbol(arbol, self.root)
                 else:
                     messagebox.showerror("Error Sintáctico", "La sintaxis de los tokens no es válida.")
@@ -79,3 +83,4 @@ class Interfaz:
 
         except ValueError as e:
             messagebox.showerror("Error de Entrada", str(e))
+

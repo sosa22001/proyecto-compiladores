@@ -18,3 +18,5 @@
 - pip install graphviz
 
 - pip install pillow
+
+-pip install ply

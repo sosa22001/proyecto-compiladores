@@ -3,14 +3,13 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Grammar
 
 Rule 0     S' -> instruccion
-Rule 1     instruccion -> CANTIDAD ORIGEN DESTINO FIN
+Rule 1     instruccion -> CANTIDAD MONEDA MONEDA FIN
 
 Terminals, with rules where they appear
 
 CANTIDAD             : 1
-DESTINO              : 1
 FIN                  : 1
-ORIGEN               : 1
+MONEDA               : 1 1
 error                : 
 
 Nonterminals, with rules where they appear
@@ -22,7 +21,7 @@ Parsing method: LALR
 state 0
 
     (0) S' -> . instruccion
-    (1) instruccion -> . CANTIDAD ORIGEN DESTINO FIN
+    (1) instruccion -> . CANTIDAD MONEDA MONEDA FIN
 
     CANTIDAD        shift and go to state 2
 
@@ -36,28 +35,28 @@ state 1
 
 state 2
 
-    (1) instruccion -> CANTIDAD . ORIGEN DESTINO FIN
+    (1) instruccion -> CANTIDAD . MONEDA MONEDA FIN
 
-    ORIGEN          shift and go to state 3
+    MONEDA          shift and go to state 3
 
 
 state 3
 
-    (1) instruccion -> CANTIDAD ORIGEN . DESTINO FIN
+    (1) instruccion -> CANTIDAD MONEDA . MONEDA FIN
 
-    DESTINO         shift and go to state 4
+    MONEDA          shift and go to state 4
 
 
 state 4
 
-    (1) instruccion -> CANTIDAD ORIGEN DESTINO . FIN
+    (1) instruccion -> CANTIDAD MONEDA MONEDA . FIN
 
     FIN             shift and go to state 5
 
 
 state 5
 
-    (1) instruccion -> CANTIDAD ORIGEN DESTINO FIN .
+    (1) instruccion -> CANTIDAD MONEDA MONEDA FIN .
 
-    $end            reduce using rule 1 (instruccion -> CANTIDAD ORIGEN DESTINO FIN .)
+    $end            reduce using rule 1 (instruccion -> CANTIDAD MONEDA MONEDA FIN .)
 

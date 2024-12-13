@@ -1,17 +1,31 @@
 import ply.yacc as yacc
-from analizador_lexico import tokens
+from analizador_lexico import tokens  # Importar los tokens generados por el analizador léxico
 
 # Reglas de la gramática
 def p_instruccion(p):
-    '''instruccion : CANTIDAD ORIGEN DESTINO FIN'''
-    p[0] = [("Cantidad", float(p[1])), ("Origen", p[2]), ("Destino", p[3]), ("Fin", p[4])]
+    '''instruccion : CANTIDAD MONEDA MONEDA FIN'''
+    p[0] = [("CANTIDAD", float(p[1])), ("ORIGEN", p[2]), ("DESTINO", p[3]), ("FIN", p[4])]
 
 def p_error(p):
-    print("Error sintáctico: Entrada inválida.")
+    if p:
+        print(f"Error sintáctico: Token inesperado '{p.value}' en la posición {p.lexpos}.")
+    else:
+        print("Error sintáctico: Fin de entrada inesperado.")
 
 # Crear el parser
-parser = yacc.yacc(debug=True)  # Habilitar depuración para generar el informe de estados
+parser = yacc.yacc()
 
 # Función para analizar sintácticamente
 def analizar_sintactico(entrada):
-    return parser.parse(entrada)
+    """
+    Analiza la sintaxis de la entrada.
+    :param entrada: Cadena de texto con la instrucción a analizar.
+    :return: Resultado del análisis o None si hay errores sintácticos.
+    """
+    resultado = parser.parse(entrada)
+    if resultado:
+        print("Análisis sintáctico exitoso:", resultado)
+        return resultado
+    else:
+        print("Análisis sintáctico fallido.")
+        return None

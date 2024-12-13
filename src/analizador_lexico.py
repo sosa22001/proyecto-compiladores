@@ -1,16 +1,15 @@
 import ply.lex as lex
+
 # Definir los tokens
 tokens = (
     'CANTIDAD',
-    'ORIGEN',
-    'DESTINO',
+    'MONEDA',
     'FIN',
 )
 
 # Definir las expresiones regulares para cada token
 t_CANTIDAD = r'\d+\.?\d+'
-t_ORIGEN = r'DólarEstadounidense|LempiraHondureño|Euro'
-t_DESTINO = r'LempiraHondureño|DólarEstadounidense|Euro'
+t_MONEDA = r'DólarEstadounidense|LempiraHondureño|Euro'
 t_FIN = r'\bfin\b'
 
 # Ignorar espacios en blanco y saltos de línea
@@ -24,14 +23,12 @@ def t_error(t):
 lexer = lex.lex()
 
 def analizar_lexico(entrada):
-    print("Entrada analizador lexico", entrada)
     lexer.input(entrada)
     tokensFinales = []
-    cont = 0
     while True:
         tok = lexer.token()
         if not tok:
             break
-        tokensFinales.append((tokens[cont], tok.value))
-        cont = cont + 1
+        tokensFinales.append((tok.type, tok.value))
+        print(tokensFinales)
     return tokensFinales
